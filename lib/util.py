@@ -109,6 +109,8 @@ def user_dir():
 
 def format_satoshis(x, is_diff=False, num_zeros = 0, decimal_point = 8, whitespaces=False):
     from decimal import Decimal
+    if x is None:
+        return 'unknown'
     s = Decimal(x)
     sign, digits, exp = s.as_tuple()
     digits = map(str, digits)
@@ -127,6 +129,15 @@ def format_satoshis(x, is_diff=False, num_zeros = 0, decimal_point = 8, whitespa
         s += " "*( 1 + decimal_point - ( len(s) - p ))
         s = " "*( 13 - decimal_point - ( p )) + s
     return s
+
+
+def format_time(timestamp):
+    import datetime
+    try:
+        time_str = datetime.datetime.fromtimestamp(timestamp).isoformat(' ')[:-3]
+    except:
+        time_str = "unknown"
+    return time_str
 
 
 # Takes a timestamp and returns a string with the approximation of the age
